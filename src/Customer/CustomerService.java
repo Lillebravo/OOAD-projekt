@@ -5,6 +5,12 @@ import java.util.ArrayList;
 
 public class CustomerService {
 
+    Customer loggedInCustomer;
+
+    public CustomerService(Customer customer){
+        loggedInCustomer = customer;
+    }
+
     CustomerRepository customerRepository = new CustomerRepository();
 
     public ArrayList<Customer> getAllCustomers() throws SQLException {

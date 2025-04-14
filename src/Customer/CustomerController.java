@@ -6,7 +6,12 @@ import java.util.Scanner;
 
 public class CustomerController {
 
-    CustomerService customerService = new CustomerService();
+    Customer loggedInCustomer;
+    CustomerService customerService = new CustomerService(loggedInCustomer);
+
+    public CustomerController(Customer customer){
+        loggedInCustomer = customer;
+    }
 
     public void runMenu() throws SQLException {
         Scanner scanner = new Scanner(System.in);

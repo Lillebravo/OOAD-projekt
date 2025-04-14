@@ -41,6 +41,26 @@ public class CustomerRepository {
         }
     }
 
+    public Customer login(String email, String password) throws SQLException {
+
+        String sql = "SELECT * FROM customers WHERE email = ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            Customer customer = new Customer(rs.getInt("customer_id"), rs.getString("name"), rs.getString("email"));
+
+            return customer;
+            //if customer.getPassword equals password (argumentet som skickades till metoden
+            //om detta stämmer: return customer
+            //annars invalid login
+        }
+    }
+
     public void addCustomer(String name, String phone, String email, String address, String password) throws SQLException {
 
         String sql = "INSERT INTO customers (name, email, phone, address, password) " +
