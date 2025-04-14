@@ -1,3 +1,5 @@
+package Customer;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -35,6 +37,24 @@ public class CustomerRepository {
             ResultSet rs = pstmt.executeQuery();
 
             return new Customer(customerId, rs.getString("name"));
+        }
+    }
+
+    public void addCustomer(String name, String phone, String email, String address, String password) throws SQLException {
+
+        String sql = "INSERT INTO customers (name, email, phone, address, password) " +
+                "VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, phone);
+            pstmt.setString(3, email);
+            pstmt.setString(4, address);
+            pstmt.setString(5, password);
+
+            pstmt.executeUpdate();
         }
     }
 }

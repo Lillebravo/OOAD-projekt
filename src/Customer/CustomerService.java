@@ -1,3 +1,5 @@
+package Customer;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -9,6 +11,14 @@ public class CustomerService {
         System.out.println("Detta är vårt logiska lager");
         System.out.println("Här ordnar vi med uträkningar och sånt kul");
         return customerRepository.getAll();
+    }
+
+    public Customer getCustomerById(int id) throws SQLException {
+        return customerRepository.getCustomerById(id);
+    }
+
+    public void addCustomer(String name, String phone, String email, String address, String password) throws SQLException {
+        customerRepository.addCustomer(name, phone, email, address, password);
     }
 
 }

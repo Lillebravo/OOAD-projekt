@@ -1,3 +1,5 @@
+package Customer;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -5,12 +7,12 @@ import java.util.Scanner;
 public class CustomerController {
 
     CustomerService customerService = new CustomerService();
-    CustomerRepository customerRepository = new CustomerRepository();
 
     public void runMenu() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("1. Hämta alla kunder");
         System.out.println("2. Hämta en kund efter id");
+        System.out.println("3. Lägg till kund");
         String select = scanner.nextLine();
         switch (select) {
             case "1":
@@ -22,8 +24,10 @@ public class CustomerController {
             case "2":
                 System.out.println("Ange id:");
                 int id = scanner.nextInt();
-                Customer customer = customerRepository.getCustomerById(id);
+                Customer customer = customerService.getCustomerById(id);
                 System.out.println(customer.getName());
+            case "3":
+                customerService.addCustomer("Exempelnamn", "tele", "mejl", "Hemma", "hemligt");
         }
 
     }
