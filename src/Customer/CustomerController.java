@@ -20,6 +20,7 @@ public class CustomerController {
                 for(Customer c : customers){
                     System.out.println("KundId: " + c.getCustomerId());
                     System.out.println("Namn: " + c.getName());
+                    System.out.println("Email: " + c.getEmail());
                 }
             case "2":
                 System.out.println("Ange id:");
@@ -28,6 +29,12 @@ public class CustomerController {
                 System.out.println(customer.getName());
             case "3":
                 customerService.addCustomer("Exempelnamn", "tele", "mejl", "Hemma", "hemligt");
+            case "4":
+                System.out.println("Ange email:");
+                String email = scanner.nextLine();
+                System.out.println("Ange id:");
+                int customerId = scanner.nextInt();
+                customerService.updateCustomerEmail(email, customerId);
         }
 
     }

@@ -17,7 +17,8 @@ public class CustomerRepository {
 
             while (rs.next()) {
                 Customer customer = new Customer(rs.getInt("customer_id"),
-                                                    rs.getString("name"));
+                                                    rs.getString("name"),
+                                                    rs.getString("email"));
                 customers.add(customer);
                 customer.introduce();
             }
@@ -36,7 +37,7 @@ public class CustomerRepository {
 
             ResultSet rs = pstmt.executeQuery();
 
-            return new Customer(customerId, rs.getString("name"));
+            return new Customer(customerId, rs.getString("name"), rs.getString("email"));
         }
     }
 
@@ -56,5 +57,24 @@ public class CustomerRepository {
 
             pstmt.executeUpdate();
         }
+    }
+
+    public void updateCustomerEmail(String email, int customerId) throws SQLException {
+
+        String sql = "UPDATE customers\n" +
+                "   SET \n" +
+                "       email = ?\n" +
+                " WHERE customer_id = ?;";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            pstmt.setInt(2, customerId);
+
+            pstmt.executeUpdate();
+        }
+        Customer customer = getCustomerById(customerId);
+        System.out.println("Your new email is: " + customer.getEmail());
     }
 }

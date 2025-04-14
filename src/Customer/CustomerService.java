@@ -21,4 +21,8 @@ public class CustomerService {
         customerRepository.addCustomer(name, phone, email, address, password);
     }
 
+    public void updateCustomerEmail(String email, int customerId) throws SQLException {
+        customerRepository.updateCustomerEmail(email, customerId);
+    }
+
 }
