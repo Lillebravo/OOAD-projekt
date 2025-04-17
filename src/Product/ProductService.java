@@ -11,6 +11,13 @@ public class ProductService {
         return productRepository.getAll();
     }
 
+    public void getProductsByName(String name) throws SQLException {
+        ArrayList<Product> products = productRepository.getProductsByName(name);
+        for (Product p : products){
+            System.out.println(p.toString());
+        }
+    }
+
     public Product getProductById(int id) throws SQLException {
         return productRepository.getProductById(id);
     }

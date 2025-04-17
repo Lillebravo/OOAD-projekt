@@ -6,22 +6,31 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-
         CustomerRepository customerRepository = new CustomerRepository();
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Ange email:");
-        String email = scanner.nextLine();
-        System.out.println("Ange lösenord:");
-        String password = scanner.nextLine();
-
-        Customer loggedInCustomer = customerRepository.login(email, password);
-
-        CustomerController customerController = new CustomerController(loggedInCustomer);
-        customerController.runMenu();
-
         ProductController productController = new ProductController();
-        productController.runMenu();
+        Scanner scanner = new Scanner(System.in);
+        boolean program = true;
+
+        while (program) {
+            System.out.println("//-- Main Menu --\\");
+            System.out.println("1: Customer Menu");
+            System.out.println("2: Product Menu");
+            System.out.println("3: Orders Menu");
+            System.out.println("0: Turn off");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> System.out.println("customers");
+                case "2" -> productController.runMenu();
+                case "3" -> System.out.println("orders");
+                case "0" -> {
+                    program = false;
+                    System.out.println("Program is shutting down.");
+                }
+                default -> System.out.println("Invalid choice, you can only choose menu options!");
+
+            }
+        }
+
     }
 }

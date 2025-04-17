@@ -26,6 +26,26 @@ public class ProductRepository {
         return products;
     }
 
+    public ArrayList<Product> getProductsByName(String productName) throws SQLException {
+        ArrayList<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE name LIKE ?";
+
+        try (Connection conn = DriverManager.getConnection(URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, "%" + productName + "%");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product(rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("stock_quantity"));
+                products.add(product);
+            }
+            return products;
+        }
+    }
+
     public Product getProductById(int productId) throws SQLException {
 
         String sql = "SELECT * FROM products WHERE product_id = ?";
@@ -34,12 +54,12 @@ public class ProductRepository {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, productId);
-
             ResultSet rs = pstmt.executeQuery();
 
             if (!rs.next()) {
                 return null;
             }
+
             return new Product(rs.getString("name"), rs.getDouble("price"), rs.getInt("stock_quantity"));
         }
     }
@@ -59,9 +79,7 @@ public class ProductRepository {
 
             pstmt.setString(1, "%" + categoryName + "%");
             ResultSet rs = pstmt.executeQuery();
-            if (!rs.next()) {
-                return null;
-            }
+
             while (rs.next()) {
                 Product product = new Product(rs.getString("name"),
                         rs.getDouble("price"),
