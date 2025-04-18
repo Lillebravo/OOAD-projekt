@@ -6,17 +6,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
+
         CustomerRepository customerRepository = new CustomerRepository();
         ProductController productController = new ProductController();
         Scanner scanner = new Scanner(System.in);
-        boolean program = true;
+        boolean programRunning = true;
 
-        while (program) {
+        while (programRunning) {
             System.out.println("//-- Main Menu --\\");
             System.out.println("1: Customer Menu");
             System.out.println("2: Product Menu");
             System.out.println("3: Orders Menu");
-            System.out.println("0: Turn off");
+            System.out.println("0: Turn off program");
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -24,7 +25,7 @@ public class Main {
                 case "2" -> productController.runMenu();
                 case "3" -> System.out.println("orders");
                 case "0" -> {
-                    program = false;
+                    programRunning = false;
                     System.out.println("Program is shutting down.");
                 }
                 default -> System.out.println("Invalid choice, you can only choose menu options!");
