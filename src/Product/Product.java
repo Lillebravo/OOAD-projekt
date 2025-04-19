@@ -2,7 +2,6 @@ package Product;
 
 public class Product {
 
-    private int id;
     private String name;
     private String description;
     private double price;
@@ -21,12 +20,9 @@ public class Product {
     // for listing products
     public Product(String name, double price, int quantity) {
         this.name = name;
-        this.description = "No description for this product yet";
         this.price = price;
         this.quantity = quantity;
     }
-
-    public int getId() { return id; }
 
     public String getName() {
         return name;
@@ -46,10 +42,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                '}';
+        return  "-------------------------------------\n" +
+                "Name: " + name + "\n" +
+                "Price: $" + String.format("%.2f", price) + "\n" +
+                "Quantity: " + quantity + "\n" +
+                "-------------------------------------";
     }
 }

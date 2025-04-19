@@ -27,3 +27,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/src/sqlite-jdbc-3.48.0.0.jar

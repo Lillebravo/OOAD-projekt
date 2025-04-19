@@ -1,8 +1,10 @@
 package Product;
 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import Utillities.Validation;
 
 public class ProductController {
     ProductService productService = new ProductService();
@@ -12,6 +14,7 @@ public class ProductController {
         Scanner scanner = new Scanner(System.in);
 
         while (productMenu) {
+            System.out.println("//-- Product Menu --\\");
             System.out.println("1: Get all products");
             System.out.println("2: Search product by Name");
             System.out.println("3: Search product by ID");
@@ -20,203 +23,88 @@ public class ProductController {
             System.out.println("6: Update product quantity");
             System.out.println("7: Add new product");
             System.out.println("0: Main Menu");
-            String select = scanner.nextLine();
 
-            switch (select) {
-                case "1" -> {
-                    ArrayList<Product> products = productService.getAllProducts();
+            String choice = scanner.nextLine();
 
-                    for (Product p : products) {
-                        System.out.println("Product Name: " + p.getName());
-                        System.out.println("Price: " + p.getPrice());
-                        System.out.println("Quantity: " + p.getQuantity());
-                    }
-                }
+            switch (choice) {
+                case "1" -> productService.getAllProducts();
+
                 case "2" -> {
-                    System.out.println("0: <- Go back");
-                    System.out.println("Input Name:");
-
-                    String productName = scanner.nextLine();
-                    if (productName.equals("0")) break;
-
-                    if (productName.trim().isEmpty()) {
-                        System.out.println("Product name cannot be empty.");
-                        break;
-                    }
+                    String productName = Validation.getValidString(scanner, "Input Name:");
+                    if (productName == null) continue;
 
                     productService.getProductsByName(productName);
                 }
+
                 case "3" -> {
-                    System.out.println("0: <- Go back");
-                    System.out.println("Input Id:");
+                    int id = Validation.getValidInt(scanner, "Input ID:", 1, "Product ID must be 1 or higher.");
+                    if (id == -1) continue;
 
-                    try {
-                        int id = Integer.parseInt(scanner.nextLine());
-                        if (id == 0) break;
-
-                        if (id < 1) {
-                            System.out.println("Product ID must be 1 or higher.");
-                            break;
-                        }
-
-                        Product product = productService.getProductById(id);
-                        if (product != null) { // checking if product exists before trying to show it
-                            System.out.println(product.toString());
-                        }
-
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid number.");
+                    Product product = productService.getProductById(id);
+                    if (product != null) {
+                        System.out.println(product.toString());
                     }
                 }
+
                 case "4" -> {
-                    System.out.println("0: <- Go back");
-                    System.out.println("Input category:");
-
-                    String categoryName = scanner.nextLine();
-                    if (categoryName.equals("0")) break;
-
-                    if (categoryName.trim().isEmpty()) {
-                        System.out.println("Category name cannot be empty.");
-                        break;
-                    }
+                    String categoryName = Validation.getValidString(scanner, "Input category:");
+                    if (categoryName == null) continue;
 
                     productService.getProductsByCategoryName(categoryName);
                 }
+
                 case "5" -> {
-                    System.out.println("0: <- Go back");
-                    System.out.println("Input ID for product you want to update:");
+                    int productId = Validation.getValidInt(scanner, "Input ID for product you want to update:", 1,
+                            "Product ID must be 1 or higher.");
+                    if (productId == -1) continue;
 
-                    try {
-                        int productId = Integer.parseInt(scanner.nextLine());
-                        if (productId == 0) break;
+                    double newPrice = Validation.getValidDouble(scanner, "Input new price for the product:", 0.01,
+                            "Price must be greater than 0.");
+                    if (newPrice == -1.0) continue;
 
-                        if (productId < 1) {
-                            System.out.println("Product ID must be 1 or higher.");
-                            break;
-                        }
-
-                        System.out.println("Input new price for the product:");
-                        try {
-                            double newPrice = Double.parseDouble(scanner.nextLine());
-
-                            if (newPrice <= 0) {
-                                System.out.println("Price must be greater than 0.");
-                                break;
-                            }
-
-                            productService.updateProductPrice(productId, newPrice);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid input. Please enter a valid price.");
-                        }
-
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid product ID.");
-                    }
+                    productService.updateProductPrice(productId, newPrice);
                 }
+
                 case "6" -> {
-                    System.out.println("0: <- Go back");
-                    System.out.println("Input ID for product you want to update:");
+                    int productId = Validation.getValidInt(scanner, "Input ID for product you want to update:", 1,
+                            "Product ID must be 1 or higher.");
+                    if (productId == -1) continue;
 
-                    try {
-                        int productId = Integer.parseInt(scanner.nextLine());
-                        if (productId == 0) break;
+                    int newQuantity = Validation.getValidInt(scanner, "Input new quantity for the product:", 1,
+                            "Quantity must be greater than 0.");
+                    if (newQuantity == -1) continue;
 
-                        if (productId < 1) {
-                            System.out.println("Product ID must be 1 or higher.");
-                            break;
-                        }
-
-                        System.out.println("Input new quantity for the product:");
-                        try {
-                            int newQuantity = Integer.parseInt(scanner.nextLine());
-
-                            if (newQuantity <= 0) {
-                                System.out.println("Quantity must be greater than 0.");
-                                break;
-                            }
-
-                            productService.updateProductQuantity(productId, newQuantity);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid input. Please enter a valid quantity.");
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid product ID.");
-                    }
+                    productService.updateProductQuantity(productId, newQuantity);
                 }
+
                 case "7" -> {
-                    System.out.println("0: <- Go back");
+                    String productName = Validation.getValidString(scanner, "Name:");
+                    if (productName == null) continue;
 
-                    System.out.println("Name:");
-                    String productName = scanner.nextLine();
-                    if (productName.equals("0")) break;
+                    String productDesc = Validation.getValidString(scanner, "Description:");
+                    if (productDesc == null) continue;
 
-                    if (productName.trim().isEmpty()) {
-                        System.out.println("Product name cannot be empty.");
-                        break;
-                    }
+                    double productPrice = Validation.getValidDouble(scanner, "Price:", 0.01,
+                            "Price must be greater than 0.");
+                    if (productPrice == -1.0) continue;
 
-                    System.out.println("Description:");
-                    String productDesc = scanner.nextLine();
-                    if (productDesc.equals("0")) break;
+                    int productQuantity = Validation.getValidInt(scanner, "Quantity:", 1,
+                            "Quantity must be greater than 0.");
+                    if (productQuantity == -1) continue;
 
-                    if (productDesc.trim().isEmpty()) {
-                        System.out.println("Product description cannot be empty.");
-                        break;
-                    }
-
-                    System.out.println("Price:");
-                    double productPrice;
-                    try {
-                        productPrice = Double.parseDouble(scanner.nextLine());
-                        if (productPrice == 0) break;
-
-                        if (productPrice <= 0) {
-                            System.out.println("Price must be greater than 0.");
-                            break;
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid price.");
-                        break;
-                    }
-
-                    System.out.println("Quantity:");
-                    int productQuantity;
-                    try {
-                        productQuantity = Integer.parseInt(scanner.nextLine());
-                        if (productQuantity == 0) break;
-
-                        if (productQuantity <= 0) {
-                            System.out.println("Quantity must be greater than 0.");
-                            break;
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid quantity.");
-                        break;
-                    }
-
-                    System.out.println("Manufacturer ID:");
-                    System.out.println("1: Apple\n2: Samsung\n3: Sony\n4: Dell\n5: LG");
-                    int manufacId;
-                    try {
-                        manufacId = Integer.parseInt(scanner.nextLine());
-                        if (manufacId == 0) break;
-
-                        if (manufacId < 1 || manufacId > 5) {
-                            System.out.println("Manufacturer ID must be a number between 1-5.");
-                            break;
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input. Please enter a valid manufacturer ID.");
-                        break;
-                    }
+                    int manufacId = Validation.getValidInt(scanner, "Manufacturer ID:", 1,
+                            "Manufacturer ID must be 1 or higher.");
+                    if (manufacId == -1) continue;
 
                     Product newProduct = new Product(productName, productDesc, productPrice, productQuantity, manufacId);
                     productService.addProduct(newProduct);
                 }
+
                 case "0" -> {
                     productMenu = false;
                     System.out.println("Going back to Main Menu.");
                 }
+
                 default -> System.out.println("Invalid choice, you can only choose menu options!");
             }
         }

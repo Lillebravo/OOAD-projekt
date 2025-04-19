@@ -5,30 +5,60 @@ import java.util.ArrayList;
 
 public class CustomerService {
 
-    Customer loggedInCustomer;
-
-    public CustomerService(Customer customer){
-        loggedInCustomer = customer;
-    }
-
     CustomerRepository customerRepository = new CustomerRepository();
 
-    public ArrayList<Customer> getAllCustomers() throws SQLException {
-        System.out.println("Detta är vårt logiska lager");
-        System.out.println("Här ordnar vi med uträkningar och sånt kul");
-        return customerRepository.getAll();
+    public void getAllCustomers() throws SQLException {
+        ArrayList<Customer> customers = customerRepository.getAll();
+
+        if (customers.isEmpty()) {
+            System.out.println("No customers found in the database.");
+        } else {
+            for (Customer c : customers) {
+                System.out.println(c.toString());
+            }
+        }
     }
 
     public Customer getCustomerById(int id) throws SQLException {
-        return customerRepository.getCustomerById(id);
+        try {
+            Customer customer = customerRepository.getCustomerById(id);
+
+            if (customer == null) {
+                System.out.println("No customer found with ID: " + id);
+                return null;
+            }
+
+            return customer;
+        } catch (SQLException e) {
+            System.out.println("Database error while retrieving customer with ID: " + id);
+            throw e;
+        }
     }
 
-    public void addCustomer(String name, String phone, String email, String address, String password) throws SQLException {
-        customerRepository.addCustomer(name, phone, email, address, password);
+    public void addCustomer(Customer customer) throws SQLException {
+        try {
+            customerRepository.addCustomer(customer);
+            System.out.println("Customer added successfully.");
+        } catch (SQLException e) {
+            System.out.println("Database error while adding new customer: " + customer.getName());
+            throw e;
+        }
     }
 
-    public void updateCustomerEmail(String email, int customerId) throws SQLException {
-        customerRepository.updateCustomerEmail(email, customerId);
+    public void updateCustomerEmail(int customerId, String newEmail) throws SQLException {
+        try {
+            // check if customer exists
+            Customer customer = customerRepository.getCustomerById(customerId);
+            if (customer == null) {
+                System.out.println("Cannot update Email. No customer found with ID: " + customerId);
+                return;
+            }
+            customerRepository.updateCustomerEmail(customerId, newEmail);
+            System.out.println("Customer email updated successfully to: " + newEmail);
+        } catch (SQLException e) {
+            System.out.println("Database error while updating customer email with ID: " + customerId);
+            throw e;
+        }
     }
 
 }

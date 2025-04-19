@@ -17,7 +17,6 @@ public class ProductRepository {
              ResultSet rs = stmt.executeQuery("SELECT * FROM products")) {
 
             while (rs.next()) {
-                Product product1 = new Product("Hej", 10.10, 50);
                 Product product = new Product(rs.getString("name"),
                         rs.getDouble("price"),
                         rs.getInt("stock_quantity"));

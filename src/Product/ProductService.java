@@ -8,12 +8,16 @@ public class ProductService {
     ProductRepository productRepository = new ProductRepository();
 
     // 1
-    public ArrayList<Product> getAllProducts() throws SQLException {
+    public void getAllProducts() throws SQLException {
         ArrayList<Product> products = productRepository.getAll();
+
         if (products.isEmpty()) {
             System.out.println("No products found in the database.");
+        } else {
+            for (Product p : products) {
+                System.out.println(p.toString());
+            }
         }
-        return products;
     }
 
     // 2

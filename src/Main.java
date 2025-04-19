@@ -1,4 +1,4 @@
-import Customer.*;
+import Customer.CustomerController;
 import Product.ProductController;
 
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-        CustomerRepository customerRepository = new CustomerRepository();
+        CustomerController customerController = new CustomerController();
         ProductController productController = new ProductController();
         Scanner scanner = new Scanner(System.in);
         boolean programRunning = true;
@@ -21,7 +21,7 @@ public class Main {
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1" -> System.out.println("customers");
+                case "1" -> customerController.runMenu();
                 case "2" -> productController.runMenu();
                 case "3" -> System.out.println("orders");
                 case "0" -> {
