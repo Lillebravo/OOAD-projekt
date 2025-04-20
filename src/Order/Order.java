@@ -1,55 +1,42 @@
 package Order;
 
+import java.util.Date;
+
 public class Order {
-
+    private int orderId;
     private int customerId;
-    private String name;
-    private String email;
-    private String phone;
-    private String address;
-    private String password;
+    private Date orderDate;
+    private double totalAmount;
 
-    public Order(String name, String email, String phone, String address, String password) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.password = password;
+    // For listing orders
+    public Order(int orderId, int customerId, Date orderDate, double totalAmount) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
     }
 
-    public Order(int customerId, String name, String email) {
+    // For creating a new order
+    public Order(int customerId) {
         this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+        this.orderDate = new Date();
     }
 
     public int getCustomerId() {
         return customerId;
     }
-    public String getName() {
-        return name;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public String getPhone() {
-        return phone;
-    }
-    public String getAddress() {
-        return address;
-    }
-    public String getPassword() {
-        return password;
+
+    public Date getOrderDate() {
+        return orderDate;
     }
 
     @Override
     public String toString() {
-        return "-------------------------------------\n" +
-                "Customer Id:" + customerId + "\n" +
-                "Name: " + name + "\n" +
-                "Email: " + email + "\n" +
+        return  "-------------------------------------\n" +
+                "Order ID: " + orderId + "\n" +
+                "Customer ID: " + customerId + "\n" +
+                "Order Date: " + orderDate + "\n" +
+                "Total Amount: $" + String.format("%.2f", totalAmount) + "\n" +
                 "-------------------------------------";
     }
-
 }
-

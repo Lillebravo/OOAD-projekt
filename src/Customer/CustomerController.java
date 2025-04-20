@@ -39,9 +39,9 @@ public class CustomerController {
                 case "3" -> {
                     String name = Validation.getValidString(scanner, "Name:");
                     if (name == null) continue;
-                    String email = Validation.getValidString(scanner, "Email:");
+                    String email = Validation.getValidEmail(scanner, "Email:");
                     if (email == null) continue;
-                    String phone = Validation.getValidString(scanner, "Phone nr:");
+                    String phone = Validation.getValidPhoneNumber(scanner, "Phone nr:");
                     if (phone == null) continue;
                     String address = Validation.getValidString(scanner, "Address:");
                     if (address == null) continue;

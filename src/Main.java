@@ -1,5 +1,6 @@
 import Customer.CustomerController;
 import Product.ProductController;
+import Order.OrderController;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -9,6 +10,8 @@ public class Main {
 
         CustomerController customerController = new CustomerController();
         ProductController productController = new ProductController();
+        OrderController orderController = new OrderController();
+
         Scanner scanner = new Scanner(System.in);
         boolean programRunning = true;
 
@@ -23,7 +26,7 @@ public class Main {
             switch (choice) {
                 case "1" -> customerController.runMenu();
                 case "2" -> productController.runMenu();
-                case "3" -> System.out.println("orders");
+                case "3" -> orderController.runMenu();
                 case "0" -> {
                     programRunning = false;
                     System.out.println("Program is shutting down.");

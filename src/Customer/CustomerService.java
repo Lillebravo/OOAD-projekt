@@ -7,6 +7,7 @@ public class CustomerService {
 
     CustomerRepository customerRepository = new CustomerRepository();
 
+    // 1
     public void getAllCustomers() throws SQLException {
         ArrayList<Customer> customers = customerRepository.getAll();
 
@@ -19,6 +20,7 @@ public class CustomerService {
         }
     }
 
+    // 2
     public Customer getCustomerById(int id) throws SQLException {
         try {
             Customer customer = customerRepository.getCustomerById(id);
@@ -35,6 +37,7 @@ public class CustomerService {
         }
     }
 
+    // 3
     public void addCustomer(Customer customer) throws SQLException {
         try {
             customerRepository.addCustomer(customer);
@@ -45,6 +48,7 @@ public class CustomerService {
         }
     }
 
+    // 4
     public void updateCustomerEmail(int customerId, String newEmail) throws SQLException {
         try {
             // check if customer exists

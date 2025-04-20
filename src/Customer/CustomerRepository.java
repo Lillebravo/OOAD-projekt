@@ -7,6 +7,7 @@ public class CustomerRepository {
 
     public static final String URL = "jdbc:sqlite:webbutiken.db";
 
+    // 1
     public ArrayList<Customer> getAll() throws SQLException {
 
         ArrayList<Customer> customers = new ArrayList<>();
@@ -28,6 +29,7 @@ public class CustomerRepository {
         return customers;
     }
 
+    // 2
     public Customer getCustomerById(int customerId) throws SQLException {
 
         String sql = "SELECT * FROM customers WHERE customer_id = ?";
@@ -49,6 +51,7 @@ public class CustomerRepository {
         }
     }
 
+    // 3
     public void addCustomer(Customer customer) throws SQLException {
 
         String sql = "INSERT INTO customers (name, email, phone, address, password) " +
@@ -69,6 +72,7 @@ public class CustomerRepository {
         }
     }
 
+    // 4
     public void updateCustomerEmail(int customerId, String email) throws SQLException {
 
         String sql = "UPDATE customers\n" +

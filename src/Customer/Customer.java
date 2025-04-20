@@ -9,6 +9,7 @@ public class Customer {
     private String address;
     private String password;
 
+    // For creating new customers
     public Customer(String name, String email, String phone, String address, String password) {
         this.name = name;
         this.email = email;
@@ -17,6 +18,7 @@ public class Customer {
         this.password = password;
     }
 
+    // For listing customers
     public Customer(int customerId, String name, String email) {
         this.customerId = customerId;
         this.name = name;
