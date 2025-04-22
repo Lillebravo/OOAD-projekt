@@ -14,8 +14,11 @@ public class ProductService {
         if (products.isEmpty()) {
             System.out.println("No products found in the database.");
         } else {
+            int productId = 1; // For displaying product id
+            // since there is no way to delete products from db and all products are in order there is no need to fetch actual id
             for (Product p : products) {
-                System.out.println(p.toString());
+                System.out.println("Product ID: " + productId + "\n" + p.toString());
+                productId++;
             }
         }
     }
